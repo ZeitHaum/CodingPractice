@@ -1,0 +1,134 @@
+\documentclass{article}
+\usepackage{ctex,soul,float,listings,enumerate,hyperref,url,amsfonts,amsmath,graphicx,multirow}
+\usepackage{xcolor,tocloft,theorem,numerica,amsmath,mathrsfs}
+\usepackage{changes}
+\usepackage{fancyhdr}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{AnatationColor}{RGB}{0,139,0}
+\lstset{
+    backgroundcolor = \color{white},    % 背景色：白色
+    basicstyle = \small\ttfamily,           % 基本样式 + 小号字体
+    rulesepcolor= \color{white},             % 代码块边框颜色,白色
+    breaklines = true,                  % 代码过长则换行
+    numbers = left,                     % 行号在左侧显示
+    numberstyle = \small,               % 行号字体
+    keywordstyle = \color{blue},            % 关键字颜色
+    commentstyle =\color{AnatationColor},        % 注释颜色
+    stringstyle = \color{red!100},          % 字符串颜色
+    frame = shadowbox,                  % 用（带影子效果）方框框住代码块
+    showspaces = false,                 % 不显示空格
+    columns = fixed,                    % 字间距固定
+    %escapeinside={<@}{@>}              % 特殊自定分隔符：<@可以自己加颜色@>
+    morekeywords = {as},                % 自加新的关键字（必须前后都是空格）
+    deletendkeywords = {compile}        % 删除内定关键字；删除错误标记的关键字用deletekeywords删！
+}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    filecolor=blue,      
+    urlcolor=blue,
+    citecolor=cyan,
+}
+\newtheorem{definition}{定义}
+\graphicspath{{./Image/}}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\author{ZeitHaum}
+\date{\today}
+\title{并查集}
+\pagestyle{fancy}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    \pagenumbering{Roman}
+    \maketitle
+    \newpage 
+    \tableofcontents
+    \newpage
+    \setcounter{page}{1}
+    \pagenumbering{arabic}
+    \section{概述}
+    并查集是一种存储非重叠和不相交元素集合的数据结构。其支持查找和合并两种基本操作。
+
+    \section{如何查找?}
+    对于每个并查集，选择一个元素作为其\textbf{代表元素}。选择代表元素的方式有很多，一种基本方式是选择最大并查集中或者最小的元素。另外规定一个并查集的代表元素为其本身，且此元素必须属于并查集。
+
+    查找两个元素是否属于一个并查集只需检查其代表元素是否一致即可。
+
+    \section{如何合并?}
+    先找到两个并查集的代表元素，然后修改其中一个元素的代表元素为另外一个即可。
+
+    \section{性能优化}
+    \subsection{按尺寸合并}
+    合并时将大小小的并查集合并到尺寸大的并查集上。
+
+    \subsection{按秩合并}
+    定义每个并查集的秩为其树状结构的高度，合并时将低秩的并查集合并到高秩并查集是更优的选择。
+
+    \subsection{路径压缩}
+    每次查询时将查询节点直接和代表元素相连，将降低重复查询相同元素的复杂度。
+
+    \subsection{复杂度}
+    \begin{enumerate}
+        \item 若没有任何性能优化，单次查询和合并复杂度为$O(n)$.
+        \item 若只带按秩合并或按尺寸合并优化，对于$n$个元素和$m$次操作，其复杂度为$O(m\log(n))$.
+        \item 若只带路径压缩优化，对于$n$次合并和$f$次查询操作，其复杂度为$O(n + f\cdot \log_{2+f/n}(n))$.
+        \item 若既有按秩合并和路径压缩，对于$m$次操作和$n$次合并，其复杂度为$O(m \alpha(n))$.其中$\alpha(n)$为反Ackerman函数，对于物理世界中任意可以写下的数，$\alpha(n)$不会超过4。
+    \end{enumerate}
+
+    \subsection{应用}
+    \begin{enumerate}
+        \item 最小生成树算法(Kruskal).
+        \item 图论判环.
+        \item $\cdots$.
+    \end{enumerate}
+
+    \subsection{实现}
+    可用负数标记每个并查集的代表元素，为了高效利用空间，可令并查集代表元素的标记为并查集大小或者秩的相反数。
+    由此根据按尺寸和按秩的不同有两种实现:
+    
+    \lstinputlisting[language=c++]{Code_1.cpp}
+
+    \section{相关例题}
+    \subsection{例题1}
+    \href{https://pintia.cn/problem-sets/994805046380707840/exam/problems/994805056736444416}{PTA天体赛-练习集:L2-024部落}
+    \subsubsection{Solution}
+    该题重点是DSU个数的求取，观察到每成功合并一次总的DSU个数将会减一，
+    可记录总的减少值最后加上数组长度即是答案。
+
+    \subsubsection{Code}
+    按尺寸合并版本:
+    \lstinputlisting[language=c++]{Code_2.cpp}
+
+    按秩合并版本:
+    \lstinputlisting[language=c++]{Code_3.cpp}
+    \subsection{例题2}
+    \href{https://leetcode.cn/problems/number-of-islands/description/}{力扣-岛屿数量}
+    
+    \subsubsection{Solution}
+    本题关键点在于并查集对象不是int类型而是一个int对。
+    可使用Std标准库的map替换vector,注意需要重载的操作符对象以及拷贝构造函数的写法标准，诀窍在于参数中尽量考虑是否能添加\&和const关键字。
+
+    本题需要考虑如何处理枚举合并顺序，保证不漏的情况下尽量减少重复。 
+
+    \subsubsection{Code}
+    \lstinputlisting[language=c++]{Code_4.cpp}
+
+    \subsection{例题3}
+    \subsubsection{Solution}
+    \href{https://leetcode.cn/problems/max-area-of-island/description/}{力扣-岛屿最大面积}
+    做法与例题2类似，注意如何记录和更新最大并查集大小即可。
+    一个小trick:使用模板可以交换自定义对象的值。
+    \subsubsection{Code}
+    \lstinputlisting[language=c++]{Code_5.cpp}
+    
+
+    \section{参考资料}
+    
+    [1]. \href{https://usaco.guide/gold/dsu?lang=cpp}{USACO-Guide}
+
+    [2]. \href{https://www.geeksforgeeks.org/disjoint-set-data-structures/}{geeksforgeeks}
+
+    [3]. \href{https://en.wikipedia.org/wiki/Disjoint-set_data_structure#Proof_of_O(log*(n))_time_complexity_of_Union-Find}{wikipedia}
+
+    [4]. 算法导论(原书第三版)
+
+\end{document}

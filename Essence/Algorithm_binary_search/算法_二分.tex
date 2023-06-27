@@ -1,0 +1,127 @@
+\documentclass{article}
+\usepackage{ctex,soul,float,listings,enumerate,hyperref,url,amsfonts,amsmath,graphicx,multirow}
+\usepackage{xcolor,tocloft,theorem,numerica,amsmath,mathrsfs}
+\usepackage{changes}
+\usepackage{fancyhdr}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{AnatationColor}{RGB}{0,139,0}
+\lstset{
+    backgroundcolor = \color{white},    % 背景色：白色
+    basicstyle = \small\ttfamily,           % 基本样式 + 小号字体
+    rulesepcolor= \color{white},             % 代码块边框颜色,白色
+    breaklines = true,                  % 代码过长则换行
+    numbers = left,                     % 行号在左侧显示
+    numberstyle = \small,               % 行号字体
+    keywordstyle = \color{blue},            % 关键字颜色
+    commentstyle =\color{AnatationColor},        % 注释颜色
+    stringstyle = \color{red!100},          % 字符串颜色
+    frame = shadowbox,                  % 用（带影子效果）方框框住代码块
+    showspaces = false,                 % 不显示空格
+    columns = fixed,                    % 字间距固定
+    %escapeinside={<@}{@>}              % 特殊自定分隔符：<@可以自己加颜色@>
+    morekeywords = {as},                % 自加新的关键字（必须前后都是空格）
+    deletendkeywords = {compile}        % 删除内定关键字；删除错误标记的关键字用deletekeywords删！
+}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    filecolor=blue,      
+    urlcolor=blue,
+    citecolor=cyan,
+}
+\newtheorem{definition}{定义}
+\graphicspath{{./Image/}}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\author{ZeitHaum}
+\date{\today}
+\title{算法-二分}
+\pagestyle{fancy}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    \pagenumbering{Roman}
+    \maketitle
+    \newpage 
+    \tableofcontents
+    \newpage
+    \setcounter{page}{1}
+    \pagenumbering{arabic}
+    \emph{Stop leaning useless algorithm, go and solve some problems, learn how to use binary search.——Um\_nik}
+    \section{通用模板}
+    \textbf{标准的二分模板至关重要。}
+    可以二分查找的数组需要满足:
+    \begin{enumerate}
+        \item 数组前面的元素都符合性质1。
+        \item 数组后面的元素都符合性质2。
+        \item 性质1和性质2是互斥对立的，一个元素要么属于性质1，要么属于性质2。
+    \end{enumerate}
+
+    定义$l$为符合性质1的最右侧元素的索引，$r$为符合性质2的最左侧元素的索引。
+    显然有$r - l = 1.$
+
+    编程时需要将$l$赋值为左边第一个满足性质1的索引，$r$为右边最后一个满足性质2的索引。
+    如果不存在则允许越界。即默认向数组最左侧和最右侧分别添加一个满足性质1和性质2的元素。
+
+    此时定义中间值$mid = l + (r - l)//2$，此时便不会出现$mid = l$或$mid = r$无法停止循环的问题。
+    典型模板如下:
+
+    \lstinputlisting[language=c++]{Template.cpp}
+
+    \section{C++相关库函数}
+    \subsection{lower\_bound}
+    返回第一个大于等于target的元素索引(迭代器)。
+    参数列表:
+    \begin{lstlisting}[language=c++]
+        lower_bound(first,end,target)->iterator;
+    \end{lstlisting}
+    
+    \subsection{upper\_bound}
+    返回第一个大于target的元素索引(迭代器)。
+    参数列表:
+    \begin{lstlisting}[language=c++]
+        upper_bound(first,end,target)->iterator;
+    \end{lstlisting}
+
+    \subsection{binary\_search}
+    返回元素是否在指定范围中。
+    参数列表:
+    \begin{lstlisting}[language=c++]
+        binary_search(first,end,target)->bool;
+    \end{lstlisting}
+
+    \section{相关题目解析}
+    \subsection{力扣287-寻找重复数}
+    链接:\href{https://leetcode.cn/problems/find-the-duplicate-number/}{ 寻找重复数}。
+
+    此题较为巧妙，因为二分的集合不是给定数组而是给定范围区间。对于处于[1,n]的整数i,记函数$f(i)$为数组中小于等于$i$的元素个数，可以发现$f(i)$满足二分性。复杂度$\Theta(n\log(n))$.
+
+    代码:
+
+    \lstinputlisting[language=c++]{Solve1.cpp}
+
+    \subsection{力扣300-最长上升子序列(LIS)问题}
+    典型做法是$\Theta(n^2)$的DP，根据Dilworth定理可以提出$\Theta(n\log(n))$的算法。
+    Dilworth定理的可推导出:一个数组的最长严格上升子序列长度等于最短的非严格下降子序列的划分。
+    于是可以通过简单模拟非严格下降子序列的划分做法(贪心+二分)求得。
+
+    代码:
+    
+    \lstinputlisting[language=c++]{Solve2.cpp}
+
+    \subsection{概念区别}
+    严格递增是不包含相等的递增。
+    非严格递增等价于非递减，包含相等的情况。
+    
+    相反的概念类似。
+
+    \section*{参考资料}
+    \addcontentsline{toc}{section}{参考资料}
+
+    [1]. \href{https://github.com/JatinDholakia/Competitive-Programming}{github-Competitive Programming}
+
+    [2]. \href{https://blog.csdn.net/weixin_44176696/article/details/104200660}{C++二分查找库函数 lower\_bound，upper\_bound，binary\_search 的简单使用}
+
+    [3]. \href{https://leetcode.cn/}{力扣}
+
+    [4]. \href{https://www.wikiwand.com/zh-sg/%E5%8D%95%E8%B0%83%E5%87%BD%E6%95%B0}{单调函数}
+
+\end{document}

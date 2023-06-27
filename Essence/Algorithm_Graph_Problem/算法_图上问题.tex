@@ -1,0 +1,92 @@
+\documentclass{article}
+\usepackage{ctex,soul,float,listings,enumerate,hyperref,url,amsfonts,amsmath,graphicx,multirow}
+\usepackage{xcolor,tocloft,theorem,numerica,amsmath,mathrsfs}
+\usepackage{changes}
+\usepackage{fancyhdr}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{AnatationColor}{RGB}{0,139,0}
+\lstset{
+    backgroundcolor = \color{white},    % 背景色：白色
+    basicstyle = \small\ttfamily,           % 基本样式 + 小号字体
+    rulesepcolor= \color{white},             % 代码块边框颜色,白色
+    breaklines = true,                  % 代码过长则换行
+    numbers = left,                     % 行号在左侧显示
+    numberstyle = \small,               % 行号字体
+    keywordstyle = \color{blue},            % 关键字颜色
+    commentstyle =\color{AnatationColor},        % 注释颜色
+    stringstyle = \color{red!100},          % 字符串颜色
+    frame = shadowbox,                  % 用（带影子效果）方框框住代码块
+    showspaces = false,                 % 不显示空格
+    columns = fixed,                    % 字间距固定
+    %escapeinside={<@}{@>}              % 特殊自定分隔符：<@可以自己加颜色@>
+    morekeywords = {as},                % 自加新的关键字（必须前后都是空格）
+    deletendkeywords = {compile}        % 删除内定关键字；删除错误标记的关键字用deletekeywords删！
+}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    filecolor=blue,      
+    urlcolor=blue,
+    citecolor=cyan,
+}
+\newtheorem{definition}{定义}
+\graphicspath{{./Image/}}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\author{ZeitHaum}
+\date{\today}
+\title{算法-图上问题}
+\pagestyle{fancy}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    \pagenumbering{Roman}
+    
+    \maketitle
+    \newpage 
+    \tableofcontents
+    \newpage
+    \setcounter{page}{1}
+    \pagenumbering{arabic}
+    \section{基本概念}
+    统一符号声明:
+    \begin{enumerate}
+        \item 正权图
+        \item 阶数
+        \item 相邻、邻域
+        \item 握手定理:$\sum_{v}d(v) = 2|E|$
+        \item 孤立点、奇点、偶点、叶节点、支配点
+        \item 最小度$\delta(G)$、最大度$\Delta(G)$
+        \item 出度$d^{+}(v)$, 入度$d^{-}(v)$
+        \item $k-$正则图
+        \item 自环、重边、简单图、多重图
+        \item 路径 
+        \item 迹:不重复经过结点
+        \item 回路: 首尾相同，环:当且仅当首尾相同
+        \item 子图、导出子图(边点对应...)、生成子图(点集相同)
+        \item 连通图、连通分量、强/弱连通图、强/弱连通分量
+        \item 割(此部分较为复杂...)
+        \item 稀疏图、稠密图
+        \item 补图(互补)，反图(反向)
+        \item 完全图、零图
+        \item 竞赛图(任意两点间有单向边)
+        \item 环图、 菊花图
+        \item 轮图(环图+菊花图)
+        \item 链，树，基环树/森林
+        \item 基环外向树/森林(展开)，基环内向树/森林(聚拢)
+        \item 仙人掌，沙漠
+        \item 二分图:两部分内部无连边，完全二分图
+        \item 平面图
+        \item 图同构
+        \item 交、并、直和
+        \item (NP,复杂...)支配集、边支配集、独立集
+        \item (复杂...)匹配
+        \item (复杂...)点覆盖(NP)、边覆盖
+        \item 团、极大团(NP)
+    \end{enumerate}
+
+    \section{}
+
+    \section{参考资料}
+    [1]. \href{https://oi-wiki.org/graph/}{OI-wiki}
+
+    [2]. \href{}
+\end{document}

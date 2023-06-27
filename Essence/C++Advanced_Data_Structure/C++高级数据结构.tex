@@ -1,0 +1,168 @@
+\documentclass{article}
+\usepackage{ctex,soul,float,listings,enumerate,hyperref,url,amsfonts,amsmath,graphicx,multirow}
+\usepackage{xcolor,tocloft,theorem,numerica,amsmath,mathrsfs}
+\usepackage{changes}
+\usepackage{fancyhdr}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{AnatationColor}{RGB}{0,139,0}
+\lstset{
+    backgroundcolor = \color{white},    % 背景色：白色
+    basicstyle = \small\ttfamily,           % 基本样式 + 小号字体
+    rulesepcolor= \color{white},             % 代码块边框颜色,白色
+    breaklines = true,                  % 代码过长则换行
+    numbers = left,                     % 行号在左侧显示
+    numberstyle = \small,               % 行号字体
+    keywordstyle = \color{blue},            % 关键字颜色
+    commentstyle =\color{AnatationColor},        % 注释颜色
+    stringstyle = \color{red!100},          % 字符串颜色
+    frame = shadowbox,                  % 用（带影子效果）方框框住代码块
+    showspaces = false,                 % 不显示空格
+    columns = fixed,                    % 字间距固定
+    %escapeinside={<@}{@>}              % 特殊自定分隔符：<@可以自己加颜色@>
+    morekeywords = {as},                % 自加新的关键字（必须前后都是空格）
+    deletendkeywords = {compile}        % 删除内定关键字；删除错误标记的关键字用deletekeywords删！
+}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    filecolor=blue,      
+    urlcolor=blue,
+    citecolor=cyan,
+}
+\newtheorem{definition}{定义}
+\graphicspath{{./Image/}}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\author{ZeitHaum}
+\date{\today}
+\title{C++高级数据结构}
+\pagestyle{fancy}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    \pagenumbering{Roman}
+    \maketitle
+    \newpage 
+    \tableofcontents
+    \newpage
+    \setcounter{page}{1}
+    \pagenumbering{arabic}
+    \section{greater}
+    用于比较的函数对象，定义于<functional>。
+    类似的还有less,greater\_equal,less\_equal。
+
+    使用时，需要先确保对应对象已经实现了相应的比较方法。
+    \textcolor{red}{注意:重载方法的参数一定是const函数,参数变量也要被const修饰。}
+    
+    例子:
+    \lstinputlisting[language=c++]{Example1.cpp}
+
+
+    
+    \section{set}
+    \subsection{概述}
+    set 中的元素都是唯一的，且以某种特定的顺序排列。
+    set 中的元素不可以更改，但是是可以插入或者移除, 并且具有对数复杂度。
+    set常常使用红黑树实现。
+    set默认按升序排列(比较函数对象为less<T>)，使用greater<T>可以更改为降序排列。
+
+    set和vector可以通过传入迭代器的方式互转，相关例子见\ref{set-algorithm}.
+
+    \subsection{multiset}
+    与set类似，区别在于允许元素重复。
+
+    \subsection{algorithm}\label{set-algorithm}
+    Algorithm库中提供了求取set求交集、并集、差集和对称差集等函数。
+    分别对应set\_intersection,set\_union,set\_difference,set\_symmetric\_difference.
+
+    例子:
+
+    \lstinputlisting[language=c++]{Example2.cpp}
+
+    该算法也对multiset具备一样的效果，不同的是返回的集合中元素也会出现多次，和其运算的定义相同。如交集集合元素重复出现的次数等于在两个集合中出现的次数的较小值。
+
+    例子:
+    \lstinputlisting[language=c++]{Example3.cpp}
+
+    \subsection{例题}
+    \subsubsection{力扣-丑数II}
+    链接:\href{https://leetcode.cn/problems/ugly-number-ii/submissions/411470687/}{力扣-265}
+    
+    记丑数序列为$U_n = \{u_1,u_2,...,u_n\}$,且对于任意$i<j$,$u_i<u_j$。
+    显然，对于任意丑数$u_i$,其可以写为$u_i = 2^x3^y5^z(x,y,z\in \mathbb{N})$。
+    于是对于任意丑数$u_i$,必然存在丑数$u_j$,使得$u_j<u_i$且
+    $u_i = 2u_j$或者$u_i = 3u_j$或者$u_i = 5u_j$。
+
+    这样我们便可以维护一个待选集$S_n$,其元素为前$n-1$个丑数的2倍数、3倍数和5倍数。
+    此时第$n$个丑数便是$S_n$的第$n$小数，也即是$S_n - U_{n-1}$的最小值。
+    随着$n$变化，我们可以通过动态删除$S_n$最小值和插入第$n$个丑数的2倍数、3倍数、5倍数来维护$S_n - U_{n-1}$.
+    此操作可以非常简单地通过set实现。
+    
+    代码:
+    \lstinputlisting[language=c++]{Example5.cpp}
+
+    \section{优先队列}
+    优先队列是类似于栈或者队列的抽象数据结构。每个优先队列中的元素均有一个优先级。
+    与普通队列不同，高优先级的元素将比低优先级的元素先出队列。
+    优先队列常常使用堆实现，但是也可以使用其他数据结构实现。
+
+    \subsection{C++实现}
+    C++ queue库提供了插入和取出复杂度为$\Theta(\log(n))$的优先队列，其中默认设置优先级为元素的大小，即元素大的将会被优先出队列。使用greater<T>可以得到另外一种对称的优先队列。
+    C++中priority\_queue使用堆实现，与自己写堆相比，封装的priority\_queue可以避免因为操作失误导致堆失效。
+    除了需要提供类模板外，priority\_queue还需要提供实现的数据类型，其必须具备front(),pop\_back()和push\_back()函数。
+    C++标准库中vector和dequeue满足要求。
+
+    \subsection{例题}
+    \subsubsection{力扣-数组中的第k大元素}
+    链接:\href{https://leetcode.cn/problems/kth-largest-element-in-an-array/}{力扣-215}.
+    此题只需维护一个大小为$k$的优先队列即可，并设置将小元素的优先设置为最高即可。最终的答案便是优先队列的最顶端。
+
+    代码:
+    \lstinputlisting[language=c++]{Example4.cpp}
+
+    \subsubsection{力扣-前 K 个高频元素}
+    链接:\href{https://leetcode.cn/problems/top-k-frequent-elements/description/}{力扣-347}
+
+    上一题的进阶版，将优先级改为对应元素的频数即可。注意考虑此过程中和其他数据结构的配合使用。
+    \lstinputlisting[language=c++]{Example6.cpp}
+
+    \section{双端链表}
+    
+    \subsection{基本概述}
+    包含在头文件<list>中，其迭代器是双向迭代器。只能++, 不能+n。
+
+    \subsection{迭代器不变特性}
+    对于双向链表创建的元素，其对应的迭代器一经赋值直至销毁都不会改变。
+
+    见以下例子:
+    \lstinputlisting[language = c++]{Example7.cpp}
+
+    \section{智能指针}
+    \subsection{概述}
+    可以自动调用析构函数，避免内存泄露。
+
+    C++ 98引入了auto_ptr, 之后的C++引入了unique_ptr, weak_ptr, shared_ptr, auto_ptr已经被废弃。
+
+    \subsection{用法}
+    见以下示例:
+
+    \lstinputlisting[language=c++]{Example8.cpp}、
+
+    注意给左值赋值智能指针、 左值构造智能指针、new 智能指针都是未定义行为。 
+
+    \subsection{区别}
+    unique_ptr只允许单个指针对象管理这片内存(互斥)。shared_ptr支持多个指针对象管理，并可以使用use_count方法查看对象数。
+    week_ptr和shared_ptr共同作用，解决内存锁死的情况，一般不需要考虑。
+
+    
+
+
+    \section*{参考资料}
+
+    [1].\href{https://cplusplus.com/reference/set/set/}{Cplusplus-set}
+
+    [2].\href{https://en.cppreference.com/w/cpp/container/set}{CppReference-set}
+
+    [3].\href{https://en.wikipedia.org/wiki/Priority_queue}{Wiki-PriorityQueue}
+
+    [4].\href{https://en.cppreference.com/w/cpp/container/priority_queue}{CppReference-priority\_queue}
+    
+\end{document}

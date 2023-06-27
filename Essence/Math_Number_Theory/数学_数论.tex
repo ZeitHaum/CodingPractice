@@ -1,0 +1,135 @@
+\documentclass{article}
+\usepackage{ctex,soul,float,listings,enumerate,hyperref,url,amsfonts,amsmath,graphicx,multirow}
+\usepackage{xcolor,tocloft,theorem,numerica,amsmath,mathrsfs}
+\usepackage{changes}
+\usepackage{fancyhdr}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{AnatationColor}{RGB}{0,139,0}
+\lstset{
+    backgroundcolor = \color{white},    % 背景色：白色
+    basicstyle = \small\ttfamily,           % 基本样式 + 小号字体
+    rulesepcolor= \color{white},             % 代码块边框颜色,白色
+    breaklines = true,                  % 代码过长则换行
+    numbers = left,                     % 行号在左侧显示
+    numberstyle = \small,               % 行号字体
+    keywordstyle = \color{blue},            % 关键字颜色
+    commentstyle =\color{AnatationColor},        % 注释颜色
+    stringstyle = \color{red!100},          % 字符串颜色
+    frame = shadowbox,                  % 用（带影子效果）方框框住代码块
+    showspaces = false,                 % 不显示空格
+    columns = fixed,                    % 字间距固定
+    %escapeinside={<@}{@>}              % 特殊自定分隔符：<@可以自己加颜色@>
+    morekeywords = {as},                % 自加新的关键字（必须前后都是空格）
+    deletendkeywords = {compile}        % 删除内定关键字；删除错误标记的关键字用deletekeywords删！
+}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    filecolor=blue,      
+    urlcolor=blue,
+    citecolor=cyan,
+}
+\newtheorem{definition}{定义}
+\graphicspath{{./Image/}}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{lemma}{引理}
+\newcommand{\dis}{\text{dis}}
+\newcommand{\ans}{\text{ans}}
+\newcommand{\lca}{\text{lca}}
+\newcommand{\fa}{\text{fa}}
+\newcommand{\size}{\text{size}}
+\newcommand{\Inf}{\text{inf}}
+\newcommand{\Else}{\text{else}}
+\newcommand{\inputcppfile}[1]{\lstinputlisting[language=c++]{#1}}
+\renewcommand{\abs}{\text{abs}}
+\renewcommand{\top}{\text{top}}
+\renewcommand{\gcd}{\text{gcd}}
+\renewcommand{\mod}{\text{ mod }}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\title{数学-数论}
+\author{ZeitHaum}
+\date{\today}
+\pagestyle{fancy}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    \pagenumbering{Roman}
+    \maketitle
+    \newpage 
+    \tableofcontents
+    \newpage
+    \setcounter{page}{1}
+    \pagenumbering{arabic}
+    \section{互质勾股数的生成方法}
+    问题描述: \emph{构造以下集合:}$S = \{(x^2-y^2,2xy,x^2+y^2)| x>y \text{且}x,y\in \mathbb{N}^{+}\}, S' = \{(a,b,c)| a^2+b^2=c^2 \text {且} a,b,c \in \mathbb{N}^{+}\}$,
+    \emph{求证以下两个命题:}
+    
+    \begin{enumerate}[子命题1.]
+        \item 在不考虑元组内元素顺序的情况下, 对于$S$中的任意元素$S_i$,都有$S_i \in S'$.
+        \item 在不考虑元组内元素顺序的情况下, 对于$S'$中的任意元素$S_i'$,都存在$k\in \mathbb{N}^{+}$使得 $kS_i'\in S$注: 对于3元组$(a,b,c)$, 定义$k(a,b,c) = (ka,kb,kc)$。 
+    \end{enumerate}
+    
+    \subsection{证明}   
+
+    对于命题1,有
+    \begin{align*}
+        (x^2 - y^2)^2 + (2xy)^2 &=  (x^4 + y^4 - 2x^2y^2) + 4x^2y^2\\
+        &= x^4 + y^4 + 2x^2y^2 \\
+        &= (x^2 + y^2)^2 
+    \end{align*}
+
+    且显然$x^2-y^2,2xy,x^2+y^2 \in \mathbb{N}^{+}$,于是子命题1得证。
+
+    对于命题2, 令$x = b, y = c-a, k = 2y = 2(c-a)$, 
+
+    根据三角形性质，显然有$b > c - a, k \mathbb{N}^{+}$,
+    
+    所以$(x^2-y^2,2xy,x^2+y^2) \in S$.
+
+    又
+    \begin{align*}
+        x ^ 2 - y^2 &= b^2 - (c - a)^2 \\
+        &= (c^2 - a^2)- c^2 - a^2 + 2ac \\
+        &=  2ac - 2a^2 \\
+        &= ka,
+    \end{align*}
+
+    \begin{align*}
+        2xy = kb,
+    \end{align*}
+
+    \begin{align*}
+        x^2 + y^2 &= b^2 + (c - a)^2\\
+        &= c^2 - a^2 + c^2 + a^2 -2ac \\
+        &= 2c^2 - 2ac  \\
+        &= kc.
+    \end{align*}
+
+    所以$(x^2-y^2,2xy,x^2+y^2) = (ka,kb,kc) \in S'$, 证毕。
+
+    \subsection{启示}
+    以上两个定理说明通过$S$的构造方法可以显示的求出所有互质的勾股数，只需枚举$x,y$求得$(x^2-y^2,2xy,x^2+y^2)$再让每个数除以三个数的最大公因数即可。
+
+
+    \section{奇数平方和}
+
+    \emph{求证: 两个奇数的平方和不可能为完全平方数。}
+
+    \emph{证明:} 
+
+    可以通过反证法证明：
+
+    假设$a,b$都为奇数，所以$c^2 $为偶数。
+    
+    不妨设$a = 2p+1, b = 2q + 1, (p,q\in \mathbb{N})$, 所以
+    
+    $$a^2 = (2p+1)^2 = 4p^2 + 4p + 1$$
+
+    所以$a^2 \mod 4 = 1, b^2 \mod 4 = 1$.
+
+    所以$a^2 + b^2 \mod 4 = 2$.
+
+    又$a^2 + b^2 = c^2$是完全平方数，所以$a^2 + b^2 \mod 4 = 0$.
+
+    $a^2 + b^2 \mod 4 = 2$和$a^2 + b^2 \mod 4 = 0$矛盾，因此得证。
+
+\end{document}

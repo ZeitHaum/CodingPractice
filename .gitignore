@@ -1,1 +1,49 @@
 *.exe
+
+待看栈.txt
+待看栈.txt - 快捷方式.lnk
+算法-未解决.xlsx
+算法-未解决.xlsx - 快捷方式.lnk
+SegmentTree.cpp
+.vscode
+
+#以下来自letex中间编译结果
+*.aux
+*.bbl
+*.blg
+*.idx
+*.ind
+*.lof
+*.lot
+*.out
+*.toc
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+*.fls
+*.log
+*.fdb_latexmk
+*.gz
+*.synctex(busy)
+*.soc
+*.loc
+*.snm
+*.na
+#latex End
+
+#C++ compile files.
+*.exe
+
+#TestCases
+Code_18Test.txt
+Code_18Ans.txt
+Code_18Hr.cpp
+Code_18out.txt
+Code_18scanfwa.cpp
+Code_18Test copy.txt
+Code_18TLE.cpp
+Code_18True.cpp
