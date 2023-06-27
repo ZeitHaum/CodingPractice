@@ -34,7 +34,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%
 \author{ZeitHaum}
 \date{\today}
-\title{算法-二分}
+\title{算法-搜索}
 \pagestyle{fancy}
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -45,8 +45,9 @@
     \newpage
     \setcounter{page}{1}
     \pagenumbering{arabic}
+    \section{二分搜索}
     \emph{Stop leaning useless algorithm, go and solve some problems, learn how to use binary search.——Um\_nik}
-    \section{通用模板}
+    \subsection{通用模板}
     \textbf{标准的二分模板至关重要。}
     可以二分查找的数组需要满足:
     \begin{enumerate}
@@ -66,30 +67,30 @@
 
     \lstinputlisting[language=c++]{Template.cpp}
 
-    \section{C++相关库函数}
-    \subsection{lower\_bound}
+    \subsection{C++相关库函数}
+    \subsubsection{lower\_bound}
     返回第一个大于等于target的元素索引(迭代器)。
     参数列表:
     \begin{lstlisting}[language=c++]
         lower_bound(first,end,target)->iterator;
     \end{lstlisting}
     
-    \subsection{upper\_bound}
+    \subsubsection{upper\_bound}
     返回第一个大于target的元素索引(迭代器)。
     参数列表:
     \begin{lstlisting}[language=c++]
         upper_bound(first,end,target)->iterator;
     \end{lstlisting}
 
-    \subsection{binary\_search}
+    \subsubsection{binary\_search}
     返回元素是否在指定范围中。
     参数列表:
     \begin{lstlisting}[language=c++]
         binary_search(first,end,target)->bool;
     \end{lstlisting}
 
-    \section{相关题目解析}
-    \subsection{力扣287-寻找重复数}
+    \subsection{相关题目解析}
+    \subsubsection{力扣287-寻找重复数}
     链接:\href{https://leetcode.cn/problems/find-the-duplicate-number/}{ 寻找重复数}。
 
     此题较为巧妙，因为二分的集合不是给定数组而是给定范围区间。对于处于[1,n]的整数i,记函数$f(i)$为数组中小于等于$i$的元素个数，可以发现$f(i)$满足二分性。复杂度$\Theta(n\log(n))$.
@@ -98,7 +99,7 @@
 
     \lstinputlisting[language=c++]{Solve1.cpp}
 
-    \subsection{力扣300-最长上升子序列(LIS)问题}
+    \subsubsection{力扣300-最长上升子序列(LIS)问题}
     典型做法是$\Theta(n^2)$的DP，根据Dilworth定理可以提出$\Theta(n\log(n))$的算法。
     Dilworth定理的可推导出:一个数组的最长严格上升子序列长度等于最短的非严格下降子序列的划分。
     于是可以通过简单模拟非严格下降子序列的划分做法(贪心+二分)求得。
@@ -112,6 +113,9 @@
     非严格递增等价于非递减，包含相等的情况。
     
     相反的概念类似。
+
+    \section{对角线搜索}
+    TODO.
 
     \section*{参考资料}
     \addcontentsline{toc}{section}{参考资料}
