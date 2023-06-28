@@ -114,8 +114,39 @@
     
     相反的概念类似。
 
-    \section{对角线搜索}
-    TODO.
+    \section{反对角线搜索}
+    \subsection{一般概述}
+    对于二元函数$f(x, y)$, 假设其值域为$[1, n] \times [1, m](x, y, n, m \in \mathbb{R})$。
+    
+    设$(i, j)$为当前搜索值， 
+    
+    若存在一个关于$(i,j)$的判定函数$Q(i, j)$使得:
+    当$Q(i, j) = 1$时, 对于任意$x<i$, 均有$f(i, j)$优于$f(x, j)$;
+    当$Q(i, j) = 2$时, 对于任意$y>j$, 均有$f(i,j)$优于$f(f(i, y))$;
+
+    则可以使用反对角线进行搜索。
+
+    定义"优于": 对于$(i_1,j_1)$ 和 $(i_2, j_2)$， 若二者都属于解空间， 则解一定不会出现在$(i_2, j_2)$，则称
+    $(i_1, j_1)$ 优于$(i_2, j_2)$.
+
+    \textbf{Problem:是否存在对称的条件使得搜索方向为主对角线?}
+
+
+    \subsection{复杂度分析}
+    对于搜索空间$[a, n] \times [b, m]$:
+    若$Q(a, m) = 1$, 则搜索空间变为$(a, m) \cup [a+1, n] \times[b, m]$.
+    
+    若$Q(a, m) = 2$, 则搜索空间变为$(a, m) \cup [a, n] \times[b, m-1]$.
+
+    迭代直到解空间为1.
+
+    复杂度$O(n + m)$.
+
+    \subsection{例题}
+    \subsubsection{力扣 11}
+    $Q(i, j) = h_i > h_j$, 可证满足条件。
+
+    \lstinputlisting[language=c++]{Solve3.cpp}
 
     \section*{参考资料}
     \addcontentsline{toc}{section}{参考资料}
