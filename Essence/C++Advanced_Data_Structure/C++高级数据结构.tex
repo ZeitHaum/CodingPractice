@@ -82,6 +82,22 @@
     例子:
     \lstinputlisting[language=c++]{Example3.cpp}
 
+    \subsection{set和vector的互相转换}
+    
+    set 转 vector:
+    \begin{lstlisting}[language=c++]
+        set<int> st{1,2, 3};
+        vector<int> st_arr;
+        st_arr.assign(st.begin(), st.end());
+    \end{lstlisting}
+
+    vector 转 set:
+    \begin{lstlisting}[language=c++]
+        vector<int> arr{1,2,3};
+        set<int> arr_st(arr.begin(), arr.end());
+    \end{lstlisting}
+
+
     \subsection{例题}
     \subsubsection{力扣-丑数II}
     链接:\href{https://leetcode.cn/problems/ugly-number-ii/submissions/411470687/}{力扣-265}
