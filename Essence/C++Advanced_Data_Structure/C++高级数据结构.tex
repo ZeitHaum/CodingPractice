@@ -149,11 +149,24 @@
     注意给左值赋值智能指针、 左值构造智能指针、new 智能指针都是未定义行为。 
 
     \subsection{区别}
-    unique_ptr只允许单个指针对象管理这片内存(互斥)。shared_ptr支持多个指针对象管理，并可以使用use_count方法查看对象数。
-    week_ptr和shared_ptr共同作用，解决内存锁死的情况，一般不需要考虑。
+    unique\_ptr只允许单个指针对象管理这片内存(互斥)。shared\_ptr支持多个指针对象管理，并可以使用use\_count方法查看对象数。
+    week\_ptr和shared\_ptr共同作用，解决内存锁死的情况，一般不需要考虑。
 
-    
+    \section{tuple}
+    \subsection{基本概述}
+    多元组。
 
+    \subsection{基本用法}
+    模板:
+    tuple<Type t1, ...>;
+
+    已经重定义赋值类方法和偏序方法，但是偏序方法(除了==)在C++20被移除。
+
+    获取其第i个元素， get<i>(实例名)
+
+    \subsection{示例代码}
+    (力扣15).
+    \lstinputlisting[language=c++]{Example9.cpp}
 
     \section*{参考资料}
 
