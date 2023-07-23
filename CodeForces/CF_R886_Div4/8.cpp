@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define int long long
 
 #define MAXN (200 * 1000 + 1)
 // #define MAXN 20
@@ -68,7 +69,7 @@ void solve(){
     }
 }
 
-int main(){
+signed main(){
     int t;
     cin>>t;
     for(int i = 0;i<t;i++){
