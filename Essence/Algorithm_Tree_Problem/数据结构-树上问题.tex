@@ -43,6 +43,7 @@
 \newcommand{\Else}{\text{else}}
 \renewcommand{\abs}{\text{abs}}
 \renewcommand{\top}{\text{top}}
+\renewcommand{\next}{\text{next}}
 \newcommand{\inputcppfile}[1]{\lstinputlisting[language=c++]{#1}}
 \author{ZeitHaum}
 \date{\today}
@@ -672,6 +673,50 @@ $\top(u)$的更新递推式如下:
 \end{enumerate}
 
 \inputcppfile{Code_18.cpp}
+
+\section{字典树(基础版)}
+又称前缀树、trie树。
+
+将前缀相同的元素挂在同一个中间节点上，由此可以便于遍历前缀。
+
+其基础版本一般仅需要支持插入和查询操作, 删除和修改操作较为少见。
+
+
+\section{基本实现}
+结点通过内存池维护。
+定义当前结点为$p$, 函数$\next(p, c)$表示当前为结点$p$的条件下，后续字符为$c$的下一个结点。
+
+定义$n$为元素个数， $k$为元素最大长度, $s$为每一位可取的集合大小。显然结点个数等于所有不同前缀的个数，
+容易证明其上界是$O(kn)$(准确的来说是$kn+1$).
+
+\subsection{基本模板}
+\lstinputlisting[language = c++]{Code19_cpp}
+
+\subsection{例题}
+\subsubsection{例19}
+\href{https://codeforces.com/contest/1851/problem/F}{Lisa and the Martians}
+
+显然可以单独考虑每一位。
+
+当$a_i$在某一位上为$0$, $a_j$为$0$时，$x = 0$最优, 该数位可以贡献$1$。
+
+当$a_i$在某一位上为$1$, $a_j$为$1$时，$x = 1$最优, 该数位可以贡献$1$。
+
+当$a_i$在某一位上为$0$, $a_j$为$1$时，$x$无论取何值，该数位贡献$0$。
+
+当$a_i$在某一位上为$1$, $a_j$为$0$时，$x$无论取何值，该数位贡献$0$。
+
+因此最大值为$\max_{i,j}(a_i \bigodot a_j)$。
+
+此值一定等于拥有最多前缀匹配的$a_i$ 和 $a_j$。
+
+使用前缀树搜索所有儿子个数等于2的结点即可。
+
+\textbf{Code:}
+\subsubsection{例20}
+\lstinputlisting[language = c++]{Code_20.cpp}
+
+
 
 \section{参考资料}
  [1]. \href{https://oi-wiki.org/graph/tree-diameter/}{OI-wiki}
