@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage{ctex,soul,float,listings,enumerate,hyperref,url,amsfonts,amsmath,graphicx,multirow}
+\usepackage{xcolor,tocloft,theorem,numerica,amsmath,mathrsfs}
+\usepackage{changes}
+\usepackage{fancyhdr}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{AnatationColor}{RGB}{0,139,0}
+\lstset{
+    backgroundcolor = \color{white},    % 背景色：白色
+    basicstyle = \small\ttfamily,           % 基本样式 + 小号字体
+    rulesepcolor= \color{white},             % 代码块边框颜色,白色
+    breaklines = true,                  % 代码过长则换行
+    numbers = left,                     % 行号在左侧显示
+    numberstyle = \small,               % 行号字体
+    keywordstyle = \color{blue},            % 关键字颜色
+    commentstyle =\color{AnatationColor},        % 注释颜色
+    stringstyle = \color{red!100},          % 字符串颜色
+    frame = shadowbox,                  % 用（带影子效果）方框框住代码块
+    showspaces = false,                 % 不显示空格
+    columns = fixed,                    % 字间距固定
+    %escapeinside={<@}{@>}              % 特殊自定分隔符：<@可以自己加颜色@>
+    morekeywords = {as},                % 自加新的关键字（必须前后都是空格）
+    deletendkeywords = {compile}        % 删除内定关键字；删除错误标记的关键字用deletekeywords删！
+}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    filecolor=blue,      
+    urlcolor=blue,
+    citecolor=cyan,
+}
+\newtheorem{definition}{定义}
+\graphicspath{{./Image/}}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\author{ZeitHaum}
+\date{\today}
+\title{算法-图上问题}
+\pagestyle{fancy}
+\begin{document}
+    \pagenumbering{Roman}       
+    \maketitle
+    \newpage 
+    \tableofcontents
+    \newpage
+    \setcounter{page}{1}
+    \pagenumbering{arabic}
+    \section{基础操作}
+    
+
+    \section{C++ 内置函数}
+    GCC内置函数，经过编译器的优化运行速度非常快，有些甚至只需要一条指令。
+
+
+    \section{bitset}
+
+
+\end{document}
